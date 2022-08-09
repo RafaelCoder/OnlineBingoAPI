@@ -12,6 +12,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using OnlineBingoAPI.Repositories;
+using OnlineBingoAPI.Services;
 using OnlineBingoAPI.Settings;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,13 @@ namespace OnlineBingoAPI
                 return new MongoClient(settings.ConnectionString);
             });
 
+
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
