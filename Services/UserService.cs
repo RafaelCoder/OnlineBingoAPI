@@ -1,5 +1,4 @@
-﻿using OnlineBingoAPI.Contracts;
-using OnlineBingoAPI.Models;
+﻿using OnlineBingoAPI.Models;
 using OnlineBingoAPI.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,9 +8,9 @@ namespace OnlineBingoAPI.Services
 {
     public class UserService : IUserService
     {
-        private UserRepository _userRepository;
+        private IUserRepository _userRepository;
 
-        public UserService(UserRepository userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -34,6 +33,11 @@ namespace OnlineBingoAPI.Services
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _userRepository.GetAll();
+        }
+
+        public async Task<User> GetByName(string username)
+        {
+            return await _userRepository.GetByName(username);
         }
 
         public async Task Update(User user)

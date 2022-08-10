@@ -23,6 +23,12 @@ namespace OnlineBingoAPI.Repositories
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 
+        public async Task<User> GetByName(string username)
+        {
+            var filter = _filterBuilder.Eq(usr => usr.Username, username);
+            return await _collection.Find(filter).SingleOrDefaultAsync();
+        }
+
         public override async Task Update(User model)
         {
             var filter = _filterBuilder.Eq(usr => usr.ReferenceId, model.ReferenceId);

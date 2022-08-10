@@ -12,5 +12,6 @@ namespace OnlineBingoAPI.Services
         public Task<IEnumerable<User>> GetAll();
         public Task Update(User user);
         public Task Delete(User user);
+        public Task<User> GetByName(string username);
     }
 }
