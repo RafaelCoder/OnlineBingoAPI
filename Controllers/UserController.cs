@@ -13,7 +13,7 @@ namespace OnlineBingoAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : DefaultController
     {
         private readonly IUserService _userService;
         public UserController(IUserService userService)
@@ -53,28 +53,21 @@ namespace OnlineBingoAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> EditUser([FromBody] UserUpdateContract user)
         {
-            await _userService.Update(user);
-            return NoContent();
+            return await ExecuteCall(async () =>
+            {
+                await _userService.Update(user);
+                return NoContent();
+            });
         }
 
-        public async Task<IActionResult> ExecuteCall(Func<Task<IActionResult>> action)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            try
+            return await ExecuteCall(async () =>
             {
-                return await action();
-            }
-            catch (BusinesRuleException ex)
-            {
-                return StatusCode(409, ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                await _userService.Delete(id);
+                return NoContent();
+            });
         }
     }
 }
