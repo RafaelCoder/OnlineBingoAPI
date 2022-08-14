@@ -1,4 +1,4 @@
-﻿using OnlineBingoAPI.Models;
+﻿using OnlineBingoAPI.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,11 +7,11 @@ namespace OnlineBingoAPI.Services
 {
     public interface IUserService
     {
-        public Task Create(User newUser);
-        public Task<User> Get(Guid ReferenceId);
-        public Task<IEnumerable<User>> GetAll();
-        public Task Update(User user);
-        public Task Delete(User user);
-        public Task<User> GetByName(string username);
+        public Task<UserReadContract> Create(UserCreateContract newUser);
+        public Task<UserReadContract> Get(Guid ReferenceId);
+        public Task<IEnumerable<UserReadContract>> GetAll();
+        public Task Update(UserUpdateContract user);
+        public Task Delete(Guid id);
+        public Task<UserReadContract> GetByName(string username);
     }
 }

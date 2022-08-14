@@ -1,8 +1,12 @@
-﻿using OnlineBingoAPI.Models;
+﻿using OnlineBingoAPI.Contracts;
+using OnlineBingoAPI.Models;
 using OnlineBingoAPI.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Mapster;
+using System.Linq;
+using OnlineBingoAPI.CustomException;
 
 namespace OnlineBingoAPI.Services
 {
@@ -15,34 +19,44 @@ namespace OnlineBingoAPI.Services
             _userRepository = userRepository;
         }
 
-        public async Task Create(User newUser)
+        public async Task<UserReadContract> Create(UserCreateContract newUser)
         {
-            await _userRepository.Add(newUser);
+            if (!(await GetByName(newUser.Username) is null))
+                throw new BusinesRuleException("Já existe um usuário com este nome");
+
+            var user = newUser.Adapt<User>();
+            await _userRepository.Add(user);
+            return user.Adapt<UserReadContract>();
         }
 
-        public async Task Delete(User user)
+        public async Task Delete(Guid id)
         {
-            await _userRepository.Delete(user);
+            await _userRepository.Delete(id);
         }
 
-        public async Task<User> Get(Guid ReferenceId)
+        public async Task<UserReadContract> Get(Guid ReferenceId)
         {
-            return await _userRepository.Get(ReferenceId);
+            var user = await _userRepository.Get(ReferenceId);
+            return user.Adapt<UserReadContract>();
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<UserReadContract>> GetAll()
         {
-            return await _userRepository.GetAll();
+            var users = await _userRepository.GetAll();
+            var usersReturn = users.Select(u => u.Adapt<UserReadContract>()).ToList();
+            return usersReturn;
         }
 
-        public async Task<User> GetByName(string username)
+        public async Task<UserReadContract> GetByName(string username)
         {
-            return await _userRepository.GetByName(username);
+            var user = await _userRepository.GetByName(username);
+            return user.Adapt<UserReadContract>();
         }
 
-        public async Task Update(User user)
+        public async Task Update(UserUpdateContract user)
         {
-            await _userRepository.Update(user);
+            var usr = user.Adapt<User>();
+            await _userRepository.Update(usr);
         }
     }
 }

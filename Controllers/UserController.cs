@@ -7,6 +7,7 @@ using OnlineBingoAPI.Services;
 using OnlineBingoAPI.Contracts;
 using System.Linq;
 using System;
+using OnlineBingoAPI.CustomException;
 
 namespace OnlineBingoAPI.Controllers
 {
@@ -23,11 +24,9 @@ namespace OnlineBingoAPI.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userService.GetAll();
-            if(users == null)
+            if (users == null)
                 return NotFound();
-            var usersReturn = users.Select(u => u.Adapt<UserReadContract>()).ToList();
-
-            return Ok(usersReturn);
+            return Ok(users);
         }
 
         [HttpGet("{id}", Name = "UserDatails")]
@@ -36,7 +35,7 @@ namespace OnlineBingoAPI.Controllers
             var user = await _userService.Get(id);
             if (user == null)
                 return NotFound();
-            return Ok(user.Adapt<UserReadContract>());
+            return Ok(user);
         }
 
         [HttpPost]
@@ -44,16 +43,23 @@ namespace OnlineBingoAPI.Controllers
         {
             try
             {
-                if(!(await _userService.GetByName(newUser.Username) is null))
-                    return StatusCode(409, "Já existe um usuário com este nome");
-
-                var user = newUser.Adapt<User>();
-                await _userService.Create(user);
+                var user = await _userService.Create(newUser);
                 return CreatedAtRoute("UserDatails", new { Id = user.ReferenceId }, user.Adapt<UserReadContract>());
-            } catch (Exception ex)
+            }
+            catch (BusinesRuleException ex)
+            {
+                return StatusCode(409, ex.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        public async Task<IActionResult> EditUser(Guid id)
+        {
+            //await _userService.Update();
+            return Ok();
         }
     }
 }

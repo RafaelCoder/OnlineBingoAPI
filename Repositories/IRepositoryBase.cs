@@ -9,7 +9,7 @@ namespace OnlineBingoAPI.Repositories
         Task Add(T model);
         Task<T> Get(Guid id);
         Task Update(T model);
-        Task Delete(T model);
+        Task Delete(Guid id);
         Task<IEnumerable<T>> GetAll();
     }
 }

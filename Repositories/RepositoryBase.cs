@@ -27,7 +27,7 @@ namespace OnlineBingoAPI.Repositories
 
         public abstract Task Update(T model);
 
-        public abstract Task Delete(T model);
+        public abstract Task Delete(Guid id);
 
         public abstract Task<T> Get(Guid id);
 
