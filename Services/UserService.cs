@@ -31,18 +31,25 @@ namespace OnlineBingoAPI.Services
 
         public async Task Delete(Guid id)
         {
+            var user = await _userRepository.Get(id);
+            if (user == null)
+                throw new NotFoundException();
             await _userRepository.Delete(id);
         }
 
-        public async Task<UserReadContract> Get(Guid ReferenceId)
+        public async Task<UserReadContract> Get(Guid id)
         {
-            var user = await _userRepository.Get(ReferenceId);
+            var user = await _userRepository.Get(id);
+            if (user == null)
+                throw new NotFoundException();
             return user.Adapt<UserReadContract>();
         }
 
         public async Task<IEnumerable<UserReadContract>> GetAll()
         {
             var users = await _userRepository.GetAll();
+            if(users == null)
+                throw new NotFoundException();
             var usersReturn = users.Select(u => u.Adapt<UserReadContract>()).ToList();
             return usersReturn;
         }

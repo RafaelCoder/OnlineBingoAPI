@@ -12,7 +12,7 @@ using OnlineBingoAPI.CustomException;
 namespace OnlineBingoAPI.Controllers
 {
     [ApiController]
-    [Route("usuarios")]
+    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,43 +23,58 @@ namespace OnlineBingoAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _userService.GetAll();
-            if (users == null)
-                return NotFound();
-            return Ok(users);
+            return await ExecuteCall(async () =>
+            {
+                var users = await _userService.GetAll();
+                return Ok(users);
+            });
         }
 
         [HttpGet("{id}", Name = "UserDatails")]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = await _userService.Get(id);
-            if (user == null)
-                return NotFound();
-            return Ok(user);
+            return await ExecuteCall(async () =>
+            {
+                var user = await _userService.Get(id);
+                return Ok(user);
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateContract newUser)
         {
-            try
+            return await ExecuteCall( async () =>
             {
                 var user = await _userService.Create(newUser);
-                return CreatedAtRoute("UserDatails", new { Id = user.ReferenceId }, user.Adapt<UserReadContract>());
+                return CreatedAtRoute("UserDatails", new { Id = user.Id }, user);
+            });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditUser([FromBody] UserUpdateContract user)
+        {
+            await _userService.Update(user);
+            return NoContent();
+        }
+
+        public async Task<IActionResult> ExecuteCall(Func<Task<IActionResult>> action)
+        {
+            try
+            {
+                return await action();
             }
             catch (BusinesRuleException ex)
             {
                 return StatusCode(409, ex.Message);
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        public async Task<IActionResult> EditUser(Guid id)
-        {
-            //await _userService.Update();
-            return Ok();
         }
     }
 }

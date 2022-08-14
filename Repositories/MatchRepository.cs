@@ -11,9 +11,9 @@ namespace OnlineBingoAPI.Repositories
         {
         }
 
-        public override async Task Delete(Match model)
+        public override async Task Delete(Guid id)
         {
-            var filter = _filterBuilder.Eq(usr => usr.ReferenceId, model.ReferenceId);
+            var filter = _filterBuilder.Eq(usr => usr.ReferenceId, id);
             await _collection.DeleteOneAsync(filter);
         }
 
