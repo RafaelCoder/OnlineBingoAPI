@@ -8,7 +8,6 @@ namespace OnlineBingoAPI.Contracts
     {
         public Guid Id { get; set; }
         public Guid OwnerUserId { get; set; }
-        public DateTime CreatedAt { get; set; }
         public MatchStatus Status { get; set; }
         public IList<PlayerUpdateContract> Players { get; set; }
         public IList<int> SelectedNumbers { get; set; }

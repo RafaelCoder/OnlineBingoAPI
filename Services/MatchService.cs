@@ -52,6 +52,7 @@ namespace OnlineBingoAPI.Services
             if (exists == null)
                 throw new NotFoundException("Match not found");
             var updatedMatch = match.Adapt<Match>();
+            updatedMatch.CreatedAt = exists.CreatedAt;
             await _matchRepository.Update(updatedMatch);
         }
     }
