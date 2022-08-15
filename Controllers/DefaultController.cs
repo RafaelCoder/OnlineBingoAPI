@@ -13,7 +13,7 @@ namespace OnlineBingoAPI.Controllers
             {
                 return await action();
             }
-            catch (BusinesRuleException ex)
+            catch (BusinessRuleException ex)
             {
                 return StatusCode(409, ex.Message);
             }

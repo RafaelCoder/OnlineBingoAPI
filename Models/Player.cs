@@ -4,8 +4,8 @@ namespace OnlineBingoAPI.Models
 {
     public class Player
     {
-        public Guid ReferenceId { get; set; }
-        public Guid UserReferenceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public Card Card { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace OnlineBingoAPI.Models
 {
     public class Card
     {
-        public int Id { get; set; }
+        public int ReferenceId { get; set; }
         public IList<Number> Numbers { get; set; }
 
         public Card()

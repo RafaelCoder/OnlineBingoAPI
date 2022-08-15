@@ -22,7 +22,7 @@ namespace OnlineBingoAPI.Services
         public async Task<UserReadContract> Create(UserCreateContract newUser)
         {
             if (!(await GetByName(newUser.Username) is null))
-                throw new BusinesRuleException("Já existe um usuário com este nome");
+                throw new BusinessRuleException("Username already exists");
 
             var user = newUser.Adapt<User>();
             await _userRepository.Add(user);
@@ -62,6 +62,9 @@ namespace OnlineBingoAPI.Services
 
         public async Task Update(UserUpdateContract user)
         {
+            var exists = await _userRepository.Get(user.Id);
+            if (exists == null)
+                throw new NotFoundException("User not found");
             var usr = user.Adapt<User>();
             await _userRepository.Update(usr);
         }
