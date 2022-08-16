@@ -11,7 +11,7 @@ namespace OnlineBingoAPI.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public MatchStatus Status { get; set; } = MatchStatus.Created;
         public IList<Player> Players { get; set; } = new List<Player>();
-        public IList<int> SelectedNumbers { get; set; }
+        public IList<int> SelectedNumbers { get; set; } = new List<int>();
 
     }
 }

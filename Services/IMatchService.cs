@@ -12,5 +12,6 @@ namespace OnlineBingoAPI.Services
         public Task<IEnumerable<MatchReadContract>> GetAll();
         public Task Update(MatchUpdateContract match);
         public Task Delete(Guid id);
+        public Task AddNumber(Guid id, int number);
     }
 }

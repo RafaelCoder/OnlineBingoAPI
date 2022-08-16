@@ -54,6 +54,7 @@ namespace OnlineBingoAPI
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMatchService, MatchService>();
+            services.AddScoped<IPlayerService, PlayerService>();
 
 
         }

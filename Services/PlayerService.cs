@@ -67,6 +67,7 @@ namespace OnlineBingoAPI.Services
                 throw new BusinessRuleException("This player already is in this match");
 
             var player = newPlayer.Adapt<Player>();
+            player.Card.ReferenceId++;
             match.Players.Add(player);
             await _matchRepository.Update(match);
             return player.Adapt<PlayerReadContract>();

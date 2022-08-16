@@ -6,6 +6,6 @@ namespace OnlineBingoAPI.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid UserId { get; set; }
-        public Card Card { get; set; }
+        public Card Card { get; set; } = new Card();
     }
 }

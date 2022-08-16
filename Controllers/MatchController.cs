@@ -64,5 +64,15 @@ namespace OnlineBingoAPI.Controllers
                 return NoContent();
             });
         }
+
+        [HttpPost("{id}/{number}")]
+        public async Task<IActionResult> AddNumber(Guid id, int number)
+        {
+            return await ExecuteCall(async () =>
+            {
+                await _matchService.AddNumber(id, number);
+                return NoContent();
+            });
+        }
     }
 }

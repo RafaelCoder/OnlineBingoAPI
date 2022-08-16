@@ -13,11 +13,13 @@ namespace OnlineBingoAPI.Models
         public Card()
         {
             Numbers = new List<Number>();
+            GenerateNumbers();
+            SortNumbers();
         }
 
         private bool NumberExists(int num) => Numbers.Any(n => n.Num == num);
 
-        public void GenerateNumbers()
+        private void GenerateNumbers()
         {
             Numbers.Clear();
 
@@ -36,7 +38,7 @@ namespace OnlineBingoAPI.Models
             }
         }
 
-        public void SortNumbers()
+        private void SortNumbers()
         {
             List<Number> copy = new List<Number>();
             foreach(Number number in Numbers)

@@ -7,6 +7,7 @@ using Mapster;
 using OnlineBingoAPI.Models;
 using OnlineBingoAPI.CustomException;
 using System.Linq;
+using OnlineBingoAPI.Extensions;
 
 namespace OnlineBingoAPI.Services
 {
@@ -17,6 +18,35 @@ namespace OnlineBingoAPI.Services
         {
             _matchRepository = matchRepository;
         }
+
+        public async Task AddNumber(Guid id, int number)
+        {
+            var match = await _matchRepository.Get(id);
+            if (match == null)
+                throw new NotFoundException("Match not found!");
+
+            if (match.SelectedNumbers.Any(n => n == number))
+                throw new BusinessRuleException("Number already selected");
+
+            if (number < 1 || number > 99)
+                throw new BusinessRuleException("The informed number is out of range.(1 - 99)");
+
+            if (match.Status == Types.MatchStatus.Created)
+                match.Status = Types.MatchStatus.InProgress;
+
+            if (match.Status != Types.MatchStatus.InProgress)
+                throw new BusinessRuleException("This match is not in progress");
+
+            match.SelectedNumbers.Add(number);
+            match.UpdateCards(number);
+
+            var winner = match.GetWinner();
+            if (winner != null)
+                match.Status = Types.MatchStatus.Finished;
+
+            await _matchRepository.Update(match);
+        }
+
         public async Task<MatchReadContract> Create(MatchCreateContract newMatch)
         {
             var match = newMatch.Adapt<Match>();
