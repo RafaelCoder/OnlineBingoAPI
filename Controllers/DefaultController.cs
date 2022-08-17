@@ -19,7 +19,7 @@ namespace OnlineBingoAPI.Controllers
             }
             catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {

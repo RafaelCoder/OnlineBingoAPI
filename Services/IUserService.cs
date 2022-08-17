@@ -9,6 +9,7 @@ namespace OnlineBingoAPI.Services
     {
         public Task<UserReadContract> Create(UserCreateContract newUser);
         public Task<UserReadContract> Get(Guid id);
+        public Task<UserContract> Get(string userName, string password);
         public Task<IEnumerable<UserReadContract>> GetAll();
         public Task Update(UserUpdateContract user);
         public Task Delete(Guid id);

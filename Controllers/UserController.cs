@@ -8,6 +8,7 @@ using OnlineBingoAPI.Contracts;
 using System.Linq;
 using System;
 using OnlineBingoAPI.CustomException;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineBingoAPI.Controllers
 {
@@ -41,6 +42,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateContract newUser)
         {
             return await ExecuteCall( async () =>
@@ -51,6 +53,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> EditUser([FromBody] UserUpdateContract user)
         {
             return await ExecuteCall(async () =>
@@ -61,6 +64,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             return await ExecuteCall(async () =>

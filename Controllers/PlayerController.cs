@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBingoAPI.Contracts;
 using OnlineBingoAPI.Services;
 using System;
@@ -36,6 +37,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> NewPlayer(Guid MatchId, [FromBody] PlayerCreateContract newPlayer)
         {
             return await ExecuteCall(async () =>
@@ -46,6 +48,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(Guid MatchId, [FromBody] PlayerUpdateContract player)
         {
             return await ExecuteCall(async () =>
@@ -56,6 +59,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid MatchId, Guid id)
         {
             return await ExecuteCall(async () =>

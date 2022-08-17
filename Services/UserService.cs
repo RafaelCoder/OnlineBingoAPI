@@ -45,6 +45,14 @@ namespace OnlineBingoAPI.Services
             return user.Adapt<UserReadContract>();
         }
 
+        public async Task<UserContract> Get(string userName, string password)
+        {
+            var user = await _userRepository.Get(userName, password);
+            if (user == null)
+                throw new NotFoundException();
+            return user.Adapt<UserContract>();
+        }
+
         public async Task<IEnumerable<UserReadContract>> GetAll()
         {
             var users = await _userRepository.GetAll();

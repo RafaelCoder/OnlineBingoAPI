@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBingoAPI.Contracts;
 using OnlineBingoAPI.Services;
 using System;
@@ -16,6 +17,7 @@ namespace OnlineBingoAPI.Controllers
             _matchService = matchService;
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             return await ExecuteCall(async () =>
@@ -26,6 +28,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "MatchDatails")]
+        [Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             return await ExecuteCall(async () =>
@@ -36,6 +39,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] MatchCreateContract newMatch)
         {
             return await ExecuteCall(async () =>
@@ -46,6 +50,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update([FromBody] MatchUpdateContract match)
         {
             return await ExecuteCall(async () =>
@@ -56,6 +61,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             return await ExecuteCall(async () =>
@@ -66,6 +72,7 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPost("{id}/{number}")]
+        [Authorize]
         public async Task<IActionResult> AddNumber(Guid id, int number)
         {
             return await ExecuteCall(async () =>

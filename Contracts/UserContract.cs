@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace OnlineBingoAPI.Models
+namespace OnlineBingoAPI.Contracts
 {
-    public class User
+    public class UserContract
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; } = "player";
-
+        public string Role { get; set; }
     }
 }
