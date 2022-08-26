@@ -19,4 +19,4 @@ RUN dotnet publish "OnlineBingoAPI.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OnlineBingoAPI.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet OnlineBingoAPI.dll
