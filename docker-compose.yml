@@ -1,0 +1,12 @@
+version: "3"  # optional since v1.27.0
+services:
+  mongo-client:
+    image: mongo
+    container_name: mongodb
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    volumes:
+      - /data/db
+  onlinebingo:
+    build: .
+    ports:
+      - "8000:80"

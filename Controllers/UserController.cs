@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineBingoAPI.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Mapster;
 using OnlineBingoAPI.Services;
 using OnlineBingoAPI.Contracts;
-using System.Linq;
 using System;
-using OnlineBingoAPI.CustomException;
 using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineBingoAPI.Controllers
@@ -42,7 +37,6 @@ namespace OnlineBingoAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateContract newUser)
         {
             return await ExecuteCall( async () =>
