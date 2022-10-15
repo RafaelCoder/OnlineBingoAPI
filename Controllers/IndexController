@@ -1,0 +1,27 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OnlineBingoAPI.Contracts;
+using OnlineBingoAPI.Services;
+using System;
+using System.Threading.Tasks;
+
+namespace OnlineBingoAPI.Controllers
+{
+    [ApiController]
+    [Route("/")]
+    public class IndexController : DefaultController
+    {
+        public IndexController()
+        {
+            
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            return await ExecuteCall(async () => { 
+                return Ok("Hi Everyone! :)");
+            });
+        }
+    }
+}
